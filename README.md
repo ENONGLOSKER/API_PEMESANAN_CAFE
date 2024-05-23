@@ -4,15 +4,15 @@
     <span>✨⭐⭐⭐✨</span>
     <hr>
     kategori
-    <img src="api_kategori.png"/>
+    <img src="static/img/api_kategori.png"/>
     <br>
     pesanan
-    <img src="api_pesanan01.png"/>
-    <img src="api_pesanan02.png"/>
+    <img src="static/img/api_pesanan01.png"/>
+    <img src="static/img/api_pesanan02.png"/>
     <br>
     pembayaran
-    <img src="api_pembayaran02.png"/>
-    <img src="api_pembayaran02.png"/>
+    <img src="static/img/api_pembayaran02.png"/>
+    <img src="static/img/api_pembayaran02.png"/>
     <br>
 </div>
 
