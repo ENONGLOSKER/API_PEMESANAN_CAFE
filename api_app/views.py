@@ -3,8 +3,10 @@ from rest_framework.response import Response
 from rest_framework import status
 from .models import Kategori, Menu, Pesanan, ItemPesanan, Pembayaran
 from .serializers import KategoriSerializer, MenuSerializer, PesananSerializer, PembayaranSerializer
+from django.views.decorators.csrf import csrf_exempt
 
 # Kategori Views
+@csrf_exempt 
 @api_view(['GET', 'POST'])
 def kategori_list(request):
     if request.method == 'GET':
@@ -18,7 +20,7 @@ def kategori_list(request):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
+@csrf_exempt 
 @api_view(['GET', 'PUT', 'DELETE'])
 def kategori_detail(request, pk):
     try:
@@ -42,7 +44,7 @@ def kategori_detail(request, pk):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 # Menu Views
-
+@csrf_exempt 
 @api_view(['GET', 'POST'])
 def menu_list(request):
     if request.method == 'GET':
@@ -56,7 +58,7 @@ def menu_list(request):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
+@csrf_exempt 
 @api_view(['GET', 'PUT', 'DELETE'])
 def menu_detail(request, pk):
     try:
@@ -80,7 +82,7 @@ def menu_detail(request, pk):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 # Pesanan Views
-
+@csrf_exempt 
 @api_view(['GET', 'POST'])
 def pesanan_list(request):
     if request.method == 'GET':
@@ -94,7 +96,7 @@ def pesanan_list(request):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
+@csrf_exempt 
 @api_view(['GET', 'PUT', 'DELETE'])
 def pesanan_detail(request, pk):
     try:
@@ -118,7 +120,7 @@ def pesanan_detail(request, pk):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 # Pembayaran Views
-
+@csrf_exempt 
 @api_view(['GET', 'POST'])
 def pembayaran_list(request):
     if request.method == 'GET':
@@ -132,7 +134,7 @@ def pembayaran_list(request):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
+@csrf_exempt 
 @api_view(['GET', 'PUT', 'DELETE'])
 def pembayaran_detail(request, pk):
     try:
