@@ -8,10 +8,17 @@ class KategoriSerializer(serializers.ModelSerializer):
 
 class MenuSerializer(serializers.ModelSerializer):
     kategori = KategoriSerializer()
-    
+
     class Meta:
         model = Menu
         fields = ['id', 'nama', 'gambar', 'harga', 'kategori']
+
+    def to_representation(self, instance): 
+        representation = super().to_representation(instance)
+        if instance.gambar:
+            request = self.context.get('request')
+            representation['gambar'] = request.build_absolute_uri(f'/static{instance.gambar.url}')
+        return representation
 
 class ItemPesananSerializer(serializers.ModelSerializer):
     menu = MenuSerializer()
@@ -37,3 +44,10 @@ class PembayaranSerializer(serializers.ModelSerializer):
     class Meta:
         model = Pembayaran
         fields = ['nama_pemesan', 'pesanan', 'metode', 'bukti_transfer']
+    
+    def validate(self, data):
+        if data['metode'] == 'transfer' and 'bukti_transfer' not in data:
+            raise serializers.ValidationError("Bukti pembayaran diperlukan untuk metode transfer.")
+        if data['metode'] == 'cash' and 'bukti_transfer' in data:
+            raise serializers.ValidationError("Bukti pembayaran tidak perlu disediakan untuk metode cas/tunai.")
+        return data

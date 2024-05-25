@@ -48,16 +48,17 @@ def kategori_detail(request, pk):
 @api_view(['GET', 'POST'])
 def menu_list(request):
     if request.method == 'GET':
-        menu = Menu.objects.all()
-        serializer = MenuSerializer(menu, many=True)
+        menus = Menu.objects.all()
+        serializer = MenuSerializer(menus, many=True, context={'request': request})
         return Response(serializer.data)
-    
+        
     elif request.method == 'POST':
-        serializer = MenuSerializer(data=request.data)
+        serializer = MenuSerializer(data=request.data, context={'request': request})
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
 @csrf_exempt 
 @api_view(['GET', 'PUT', 'DELETE'])
 def menu_detail(request, pk):
@@ -67,11 +68,11 @@ def menu_detail(request, pk):
         return Response(status=status.HTTP_404_NOT_FOUND)
 
     if request.method == 'GET':
-        serializer = MenuSerializer(menu)
+        serializer = MenuSerializer(menu, context={'request': request})
         return Response(serializer.data)
     
     elif request.method == 'PUT':
-        serializer = MenuSerializer(menu, data=request.data)
+        serializer = MenuSerializer(menu, data=request.data, context={'request': request})
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
@@ -87,11 +88,11 @@ def menu_detail(request, pk):
 def pesanan_list(request):
     if request.method == 'GET':
         pesanan = Pesanan.objects.all()
-        serializer = PesananSerializer(pesanan, many=True)
+        serializer = PesananSerializer(pesanan, many=True, context={'request': request})
         return Response(serializer.data)
     
     elif request.method == 'POST':
-        serializer = PesananSerializer(data=request.data)
+        serializer = PesananSerializer(data=request.data, context={'request': request})
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -105,11 +106,11 @@ def pesanan_detail(request, pk):
         return Response(status=status.HTTP_404_NOT_FOUND)
 
     if request.method == 'GET':
-        serializer = PesananSerializer(pesanan)
+        serializer = PesananSerializer(pesanan, context={'request': request})
         return Response(serializer.data)
     
     elif request.method == 'PUT':
-        serializer = PesananSerializer(pesanan, data=request.data)
+        serializer = PesananSerializer(pesanan, data=request.data, context={'request': request})
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
@@ -125,11 +126,11 @@ def pesanan_detail(request, pk):
 def pembayaran_list(request):
     if request.method == 'GET':
         pembayaran = Pembayaran.objects.all()
-        serializer = PembayaranSerializer(pembayaran, many=True)
+        serializer = PembayaranSerializer(pembayaran, many=True, context={'request': request})
         return Response(serializer.data)
     
     elif request.method == 'POST':
-        serializer = PembayaranSerializer(data=request.data)
+        serializer = PembayaranSerializer(data=request.data, context={'request': request})
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -143,11 +144,11 @@ def pembayaran_detail(request, pk):
         return Response(status=status.HTTP_404_NOT_FOUND)
 
     if request.method == 'GET':
-        serializer = PembayaranSerializer(pembayaran)
+        serializer = PembayaranSerializer(pembayaran, context={'request': request})
         return Response(serializer.data)
     
     elif request.method == 'PUT':
-        serializer = PembayaranSerializer(pembayaran, data=request.data)
+        serializer = PembayaranSerializer(pembayaran, data=request.data, context={'request': request})
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
