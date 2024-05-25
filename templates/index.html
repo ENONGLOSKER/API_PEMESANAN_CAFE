@@ -71,9 +71,11 @@
             <a href=""><span class="badge text-bg-secondary px-4 py-3">#Minuman</span></a>
           </div>
 
+          
           <!-- list menu -->
-          <div class="list-menu d-flex flex-wrap justify-content-between mt-4">
-            <div class="card mb-2" style="width: 11rem;">
+          <div class="list-menu d-flex flex-wrap justify-content-between mt-4" id="menu-list">
+
+              <!-- <div class="card mb-2" style="width: 11rem;">
                 <img src="{% static 'img/mk1.png' %}" class="card-img-top" alt="...">
                 <div class="card-body">
                   <h5 class="card-title">Sate Ayam</h5>
@@ -82,64 +84,44 @@
                     <span class="badge text-bg-secondary" >Makanan</span>
                 </div>
                 </div>
-            </div>
-            <div class="card mb-2" style="width: 11rem;">
-                <img src="{% static 'img/mk2.png' %}" class="card-img-top" alt="...">
-                <div class="card-body">
-                  <h5 class="card-title">Sate Ayam</h5>
-                <div class="kategori d-flex justify-content-between align-items-center">
-                    <h6 style="margin: 0;">Rp 5000</h6>
-                    <span class="badge text-bg-secondary" >Makanan</span>
-                </div>
-                </div>
-            </div>           
-            <div class="card mb-2" style="width: 11rem;">
-                <img src="{% static 'img/mn1.png' %}" class="card-img-top" alt="...">
-                <div class="card-body">
-                  <h5 class="card-title">Sate Ayam</h5>
-                <div class="kategori d-flex justify-content-between align-items-center">
-                    <h6 style="margin: 0;">Rp 5000</h6>
-                    <span class="badge text-bg-secondary" >Makanan</span>
-                </div>
-                </div>
-            </div>
-            <div class="card mb-2" style="width: 11rem;">
-                <img src="{% static 'img/mk2.png' %}" class="card-img-top" alt="...">
-                <div class="card-body">
-                  <h5 class="card-title">Sate Ayam</h5>
-                <div class="kategori d-flex justify-content-between align-items-center">
-                    <h6 style="margin: 0;">Rp 5000</h6>
-                    <span class="badge text-bg-secondary" >Makanan</span>
-                </div>
-                </div>
-            </div>  
-            <div class="card mb-2" style="width: 11rem;">
-              <img src="{% static 'img/mk1.png' %}" class="card-img-top" alt="...">
-              <div class="card-body">
-                <h5 class="card-title">Sate Ayam</h5>
-              <div class="kategori d-flex justify-content-between align-items-center">
-                  <h6 style="margin: 0;">Rp 5000</h6>
-                  <span class="badge text-bg-secondary" >Makanan</span>
-              </div>
-              </div>
+            </div> -->
+            
           </div>
-          <div class="card mb-2" style="width: 11rem;">
-            <img src="{% static 'img/mn1.png' %}" class="card-img-top" alt="...">
-            <div class="card-body">
-              <h5 class="card-title">Sate Ayam</h5>
-            <div class="kategori d-flex justify-content-between align-items-center">
-                <h6 style="margin: 0;">Rp 5000</h6>
-                <span class="badge text-bg-secondary" >Makanan</span>
-            </div>
-            </div>
-        </div>
-          
-          
-          </div>
+
     </div>
 
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    
+    <!-- consume api menu-->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const menuList = document.getElementById('menu-list');
+
+            fetch('/api/menu/')
+                .then(response => response.json())
+                .then(data => {
+                    data.forEach(menu => {
+                        const card = document.createElement('div');
+                        card.classList.add('card', 'mb-2');
+                        card.style.width = '11rem';
+                        card.innerHTML = `
+                            <img src="${menu.gambar}" class="card-img-top" alt="${menu.nama}" style="height:133px; object-fit:cover;">
+                            <div class="card-body" style="padding:18px 10px">
+                                <h5 class="card-title">${menu.nama}</h5>
+                                <div class="kategori d-flex justify-content-between align-items-center">
+                                    <h6 style="margin: 0;">Rp ${menu.harga}</h6>
+                                    <span class="badge text-bg-warning">${menu.kategori.nama_kategori}</span>
+                                </div>
+                            </div>
+                        `;
+                        menuList.appendChild(card);
+                    });
+                })
+                .catch(error => console.error('Error fetching menu:', error));
+        });
+    </script>
+
   </body>
 </html>
