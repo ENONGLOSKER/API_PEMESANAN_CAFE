@@ -57,7 +57,10 @@ INSTALLED_APPS = [
 
 
 MIDDLEWARE = [
+
     'django.middleware.security.SecurityMiddleware', 
+    "corsheaders.middleware.CorsMiddleware",
+    'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -74,9 +77,9 @@ CORS_ALLOWED_ORIGINS = [
 ]
 
 ROOT_URLCONF = 'api_pemesanan_cafe.urls'
-CORS_ALLOW_ALL_ORIGINS = True 
+CORS_ALLOW_ALL_ORIGINS = False 
 CORS_ALLOWED_ORIGINS = [
-    "http://127.0.0.1:5173"
+    "http://127.0.0.1:5173",
 ] 
 
 TEMPLATES = [
