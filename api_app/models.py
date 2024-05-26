@@ -26,6 +26,9 @@ class Pesanan(models.Model):
     def total_harga(self):
         total = sum(item.total_harga() for item in self.items.all())
         return total
+    
+    def __str__(self):
+        return str(f'Nomor Meja {self.nomor_meja}')
 
 class ItemPesanan(models.Model):
     pesanan = models.ForeignKey(Pesanan, related_name='items', on_delete=models.CASCADE)
@@ -34,6 +37,9 @@ class ItemPesanan(models.Model):
 
     def total_harga(self):
         return self.menu.harga * self.jumlah_menu
+    
+    def __str__(self):
+        return str(f'Pesanan Meja {self.pesanan.nomor_meja}')
 
 class Pembayaran(models.Model):
     PEMBAYARAN_METODE = [

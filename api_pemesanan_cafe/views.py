@@ -1,5 +1,8 @@
 from django.shortcuts import render
+<<<<<<< HEAD
 
+=======
+>>>>>>> d60a92416265a14620e141604e60948efe75a48c
 
 def index(request):
     
