@@ -20,6 +20,7 @@ def kategori_list(request):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
 @csrf_exempt 
 @api_view(['GET', 'PUT', 'DELETE'])
 def kategori_detail(request, pk):

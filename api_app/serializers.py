@@ -4,14 +4,14 @@ from .models import Kategori, Menu, Pesanan, ItemPesanan, Pembayaran
 class KategoriSerializer(serializers.ModelSerializer):
     class Meta:
         model = Kategori
-        fields = ['nama_kategori', 'created', 'updated']
+        fields = ['id', 'nama_kategori', 'created', 'updated']
 
 class MenuSerializer(serializers.ModelSerializer):
-    kategori = KategoriSerializer()
+    kategori = serializers.PrimaryKeyRelatedField(queryset=Kategori.objects.all())
 
     class Meta:
         model = Menu
-        fields = ['id', 'nama', 'gambar', 'harga', 'kategori']
+        fields = ['id','nama', 'gambar', 'harga', 'kategori']
 
     def to_representation(self, instance): 
         representation = super().to_representation(instance)
@@ -25,7 +25,7 @@ class ItemPesananSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = ItemPesanan
-        fields = ['menu', 'jumlah_menu']
+        fields = ['id','menu', 'jumlah_menu']
 
 class PesananSerializer(serializers.ModelSerializer):
     items = ItemPesananSerializer(many=True)
@@ -33,7 +33,7 @@ class PesananSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Pesanan
-        fields = ['nomor_meja', 'items', 'total_harga', 'keterangan', 'created', 'updated']
+        fields = ['id','nomor_meja', 'items', 'total_harga', 'keterangan', 'created', 'updated']
 
     def get_total_harga(self, obj):
         return obj.total_harga()
@@ -43,7 +43,7 @@ class PembayaranSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Pembayaran
-        fields = ['nama_pemesan', 'pesanan', 'metode', 'bukti_transfer']
+        fields = ['id','nama_pemesan', 'pesanan', 'metode', 'bukti_transfer']
     
     def validate(self, data):
         if data['metode'] == 'transfer' and 'bukti_transfer' not in data:
