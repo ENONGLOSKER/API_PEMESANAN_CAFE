@@ -10,11 +10,33 @@
         .container .filter a span:hover{
             background-color: blue;
         }
+
+        #splash {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-color: rgb(249, 213, 9);
+            background-image: linear-gradient(-15deg, #FF852D,#FFA800);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+
+        #splash-logo {
+            width: 200px;
+        }
     </style>
   </head>
   <body>
+    <!-- Splash Screen -->
+    <div id="splash">
+        <img src="{% static 'img/logo.png' %}" alt="Logo" id="splash-logo"> <br>
+    </div>
+
+
     <!-- navbar -->
-    <div class="container" style="width: 380px; padding: 0;">
+    <div class="container" style="width: 380px; padding: 0; display: none;" id="main-content1">
         <!-- navbar -->
         <nav class="navbar navbar-expand-lg bg-body-tertiary">
             <div class="container">
@@ -42,7 +64,7 @@
         </nav>
     </div>
 
-    <div class="container bg-secondary-subtle pt-4 " style="width: 380px; height: 100%;">
+    <div class="container bg-secondary-subtle pt-4 " style="width: 380px; height: 100%; display: none;" id="main-content2">
 
           <!-- alert -->
           <div class="alert alert-danger" role="alert">
@@ -94,6 +116,17 @@
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            setTimeout(function() {
+                document.getElementById('splash').style.display = 'none';
+                document.getElementById('main-content1').style.display = 'block';
+                document.getElementById('main-content2').style.display = 'block';
+            },3000); 
+        });
+
+    </script>
+
     <!-- consume api menu-->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
