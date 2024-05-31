@@ -7,18 +7,25 @@ class KategoriSerializer(serializers.ModelSerializer):
         fields = ['id', 'nama_kategori', 'created', 'updated']
 
 class MenuSerializer(serializers.ModelSerializer):
+
     # kategori = serializers.PrimaryKeyRelatedField(queryset=Kategori.objects.all())
     kategori = KategoriSerializer()
+    kategori = serializers.PrimaryKeyRelatedField(queryset=Kategori.objects.all())
+    kategori_detail = serializers.SerializerMethodField()
+
 
     class Meta:
         model = Menu
-        fields = ['id','nama', 'gambar', 'harga', 'kategori']
+        fields = ['id', 'nama', 'gambar', 'harga', 'kategori', 'kategori_detail']
 
-    def to_representation(self, instance): 
+    def get_kategori_detail(self, obj):
+        return KategoriSerializer(obj.kategori).data
+
+    def to_representation(self, instance):
         representation = super().to_representation(instance)
         if instance.gambar:
             request = self.context.get('request')
-            representation['gambar'] = request.build_absolute_uri(f'/static{instance.gambar.url}')
+            representation['gambar'] = request.build_absolute_uri(instance.gambar.url)
         return representation
 
 class ItemPesananSerializer(serializers.ModelSerializer):

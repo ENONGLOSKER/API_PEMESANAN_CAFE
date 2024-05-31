@@ -10,7 +10,7 @@ from django.views.decorators.csrf import csrf_exempt
 @api_view(['GET', 'POST'])
 def kategori_list(request):
     if request.method == 'GET':
-        kategori = Kategori.objects.all()
+        kategori = Kategori.objects.all().order_by('-id')
         serializer = KategoriSerializer(kategori, many=True)
         return Response(serializer.data)
     
@@ -49,7 +49,7 @@ def kategori_detail(request, pk):
 @api_view(['GET', 'POST'])
 def menu_list(request):
     if request.method == 'GET':
-        menus = Menu.objects.all()
+        menus = Menu.objects.all().order_by('-id')
         serializer = MenuSerializer(menus, many=True, context={'request': request})
         return Response(serializer.data)
         
