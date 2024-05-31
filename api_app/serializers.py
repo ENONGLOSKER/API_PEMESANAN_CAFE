@@ -47,11 +47,10 @@ class PembayaranSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Pembayaran
-        fields = ['id','nama_pemesan', 'pesanan', 'metode', 'bukti_transfer']
+        fields = ['id','nomor_hp','nama_pemesan', 'pesanan', 'metode', 'bukti_transfer']
     
     def validate(self, data):
         if data['metode'] == 'transfer' and 'bukti_transfer' not in data:
             raise serializers.ValidationError("Bukti pembayaran diperlukan untuk metode transfer.")
         if data['metode'] == 'cash' and 'bukti_transfer' in data:
             raise serializers.ValidationError("Bukti pembayaran tidak perlu disediakan untuk metode cas/tunai.")
-        return data

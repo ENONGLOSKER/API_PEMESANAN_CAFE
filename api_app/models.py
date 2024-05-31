@@ -48,8 +48,14 @@ class Pembayaran(models.Model):
     ]
     pesanan = models.OneToOneField(Pesanan, related_name='pembayaran', on_delete=models.CASCADE)
     nama_pemesan = models.CharField(max_length=100)
+    nomor_hp = models.CharField(max_length=16, default='+62')
     metode = models.CharField(choices=PEMBAYARAN_METODE, max_length=50)
     bukti_transfer = models.ImageField(upload_to='payment_proofs/', null=True, blank=True)
 
     def __str__(self):
         return f'{self.nama_pemesan} - {self.metode}'
+
+    def konversi_nomor_hp(self):
+        if self.nomor_hp.startswith('0'):
+            self.nomor_hp = '+62' + self.nomor_hp[1:]
+        return self.nomor_hp
