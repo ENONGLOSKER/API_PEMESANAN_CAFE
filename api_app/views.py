@@ -2,7 +2,8 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
 from django.views.decorators.csrf import csrf_exempt
-from django.views.decorators.cache import cache_page
+# from django.views.decorators.cache import cache_page
+from rest_framework.pagination import PageNumberPagination
 # app
 from .models import Kategori, Menu, Pesanan, ItemPesanan, Pembayaran
 from .serializers import KategoriSerializer, MenuSerializer, PesananSerializer, PembayaranSerializer
@@ -10,11 +11,13 @@ from .serializers import KategoriSerializer, MenuSerializer, PesananSerializer, 
 # Kategori Views
 @csrf_exempt 
 @api_view(['GET', 'POST'])
-@cache_page(60 * 1)  # Cache view ini selama 15 menit
+# @cache_page(60 * 1) 
 def kategori_list(request):
     if request.method == 'GET':
+
         kategori = Kategori.objects.all().order_by('-id')
         serializer = KategoriSerializer(kategori, many=True)
+
         return Response(serializer.data)
     
     elif request.method == 'POST':
