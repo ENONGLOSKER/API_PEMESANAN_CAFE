@@ -46,6 +46,9 @@
             } 
         } 
         
+        .jaringan {
+            display: none; /* Sembunyikan elemen secara default */
+        }
     </style>
   </head>
   <body>
@@ -88,8 +91,8 @@
     <div class="container bg-secondary-subtle pt-4 " style="width: 380px; height: 100%; display: none;" id="main-content2">
 
           <!-- alert -->
-          <div class="alert alert-danger" role="alert">
-            🙏 Sistem dalam tahap Pengembangan!
+          <div class="jaringan alert" role="alert" id="connection-status">
+            <span id="connection-message">Jaringan!</span>
           </div>
 
           <!-- carosel -->
@@ -130,13 +133,64 @@
             </div> -->
             
           </div>
-
     </div>
+
+    <!-- Placeholder untuk status jaringan -->
+    <div id="network-status" class="alert alert-danger" role="alert" style="display: none;">
+        Tidak ada koneksi internet.
+    </div>
+
 
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     
+
+    <script>
+        function showConnectionStatus(message, isOnline) {
+            const connectionStatus = document.getElementById('connection-status');
+            const connectionMessage = document.getElementById('connection-message');
+  
+            // Set kelas berdasarkan status koneksi
+            if (isOnline) {
+                connectionStatus.classList.remove('alert-danger');
+                connectionStatus.classList.add('alert-success');
+                connectionMessage.classList.remove('text-danger');
+                connectionMessage.classList.add('text-success');
+                connectionMessage.textContent = message;
+            } else {
+                connectionStatus.classList.remove('alert-success');
+                connectionStatus.classList.add('alert-danger');
+                connectionMessage.classList.remove('text-success');
+                connectionMessage.classList.add('text-danger');
+                connectionMessage.textContent = message;
+            }
+  
+            // Tampilkan pesan selama 5 detik
+            connectionStatus.style.display = 'block';
+            setTimeout(() => {
+                connectionStatus.style.display = 'none';
+            }, 5000); // 5 detik
+        }
+  
+        function checkInternetConnection() {
+            if (navigator.onLine) {
+                showConnectionStatus('✔ Koneksi internet terhubung.', true);
+                console.log('Koneksi internet Terhubung.');
+            } else {
+                showConnectionStatus('❌ Koneksi internet tidak terhubung.', false);
+                console.log('Tidak ada koneksi internet.');
+            }
+        }
+  
+        // Mengecek status koneksi saat halaman dimuat
+        window.addEventListener('load', checkInternetConnection);
+  
+        // Mengecek status koneksi saat ada perubahan
+        window.addEventListener('online', checkInternetConnection);
+        window.addEventListener('offline', checkInternetConnection);
+    </script>
+
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             setTimeout(function() {

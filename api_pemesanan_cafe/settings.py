@@ -108,6 +108,14 @@ DATABASES = {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
+
+    # database dengan mysql
+    # 'default': {
+    #         'ENGINE': 'django.db.backends.mysql',
+    #         'NAME': 'db_cafe',
+    #         'USER': 'root',
+    #         'PASSWORD': '',
+    #     }
 }
 
 
