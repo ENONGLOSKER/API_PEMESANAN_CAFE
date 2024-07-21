@@ -49,6 +49,12 @@
         .jaringan {
             display: none; /* Sembunyikan elemen secara default */
         }
+        .alert-danger{
+          border-left: 6px solid rgb(214, 20, 3);
+        }
+        .alert-success{
+          border-left: 6px solid rgb(2, 162, 2);
+        }
     </style>
   </head>
   <body>
@@ -91,7 +97,7 @@
     <div class="container bg-secondary-subtle pt-4 " style="width: 380px; height: 100%; display: none;" id="main-content2">
 
           <!-- alert -->
-          <div class="jaringan alert" role="alert" id="connection-status">
+          <div class="jaringan alert ps-3" role="alert" id="connection-status">
             <span id="connection-message">Jaringan!</span>
           </div>
 
