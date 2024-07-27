@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     # api
     'rest_framework',
     'corsheaders',
+    # swager
+    'drf_yasg',
 
 ]
 
@@ -79,7 +81,16 @@ ROOT_URLCONF = 'api_pemesanan_cafe.urls'
 CORS_ALLOW_ALL_ORIGINS = False 
 CORS_ALLOWED_ORIGINS = [
     "http://127.0.0.1:5173",
+    "https://api-pemesanan-cafe-production.up.railway.app",
 ] 
+CSRF_TRUSTED_ORIGINS = [
+    'https://api-pemesanan-cafe-production.up.railway.app',
+    # Tambahkan domain lain yang Anda percayai jika perlu
+]
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
+
+
 
 TEMPLATES = [
     {
