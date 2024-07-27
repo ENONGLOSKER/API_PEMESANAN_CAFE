@@ -26,31 +26,71 @@ class MenuSerializer(serializers.ModelSerializer):
 
 class ItemPesananSerializer(serializers.ModelSerializer):
     menu = MenuSerializer()
-    
+
     class Meta:
         model = ItemPesanan
-        fields = ['id','menu', 'jumlah_menu']
+        fields = ['id', 'menu', 'jumlah_menu']
+
+    def create(self, validated_data):
+        menu_data = validated_data.pop('menu')
+        menu = Menu.objects.get(id=menu_data['id'])
+        item_pesanan = ItemPesanan.objects.create(menu=menu, **validated_data)
+        return item_pesanan
 
 class PesananSerializer(serializers.ModelSerializer):
     items = ItemPesananSerializer(many=True)
     total_harga = serializers.SerializerMethodField()
-    
+
     class Meta:
         model = Pesanan
-        fields = ['id','nomor_meja', 'items', 'total_harga', 'keterangan', 'created', 'updated']
+        fields = ['id', 'nomor_meja', 'keterangan', 'status', 'created', 'updated', 'items', 'total_harga']
 
     def get_total_harga(self, obj):
         return obj.total_harga()
 
+    def create(self, validated_data):
+        items_data = validated_data.pop('items')
+        pesanan = Pesanan.objects.create(**validated_data)
+        for item_data in items_data:
+            ItemPesanan.objects.create(pesanan=pesanan, **item_data)
+        return pesanan
+
+    def update(self, instance, validated_data):
+        items_data = validated_data.pop('items')
+        instance.nomor_meja = validated_data.get('nomor_meja', instance.nomor_meja)
+        instance.keterangan = validated_data.get('keterangan', instance.keterangan)
+        instance.status = validated_data.get('status', instance.status)
+        instance.save()
+
+        # Update or create items
+        for item_data in items_data:
+            item_id = item_data.get('id')
+            if item_id:
+                item = ItemPesanan.objects.get(id=item_id, pesanan=instance)
+                item.menu = item_data.get('menu', item.menu)
+                item.jumlah_menu = item_data.get('jumlah_menu', item.jumlah_menu)
+                item.save()
+            else:
+                ItemPesanan.objects.create(pesanan=instance, **item_data)
+        
+        return instance
+
 class PembayaranSerializer(serializers.ModelSerializer):
     pesanan = PesananSerializer()
-    
+
     class Meta:
         model = Pembayaran
-        fields = ['id','nomor_hp','nama_pemesan', 'pesanan', 'metode', 'bukti_transfer']
-    
+        fields = ['id', 'nomor_hp', 'nama_pemesan', 'pesanan', 'metode', 'bukti_transfer']
+
     def validate(self, data):
-        if data['metode'] == 'transfer' and 'bukti_transfer' not in data:
+        if data['metode'] == 'transfer' and not data.get('bukti_transfer'):
             raise serializers.ValidationError("Bukti pembayaran diperlukan untuk metode transfer.")
-        if data['metode'] == 'cash' and 'bukti_transfer' in data:
-            raise serializers.ValidationError("Bukti pembayaran tidak perlu disediakan untuk metode cas/tunai.")
+        if data['metode'] == 'cash' and data.get('bukti_transfer'):
+            raise serializers.ValidationError("Bukti pembayaran tidak perlu disediakan untuk metode cash/tunai.")
+        return data
+
+    def create(self, validated_data):
+        pesanan_data = validated_data.pop('pesanan')
+        pesanan = PesananSerializer.create(PesananSerializer(), validated_data=pesanan_data)
+        pembayaran = Pembayaran.objects.create(pesanan=pesanan, **validated_data)
+        return pembayaran
