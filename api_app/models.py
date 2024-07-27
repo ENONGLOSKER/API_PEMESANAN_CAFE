@@ -13,6 +13,7 @@ class Menu(models.Model):
     gambar = models.ImageField(upload_to='menu_images/')
     harga = models.DecimalField(max_digits=10, decimal_places=2)
     kategori = models.ForeignKey(Kategori, related_name='menus', on_delete=models.CASCADE)
+    tersedia = models.BooleanField(default=True)
 
     def __str__(self):
         return self.nama
