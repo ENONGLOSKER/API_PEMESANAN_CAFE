@@ -80,7 +80,7 @@ class PembayaranSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Pembayaran
-        fields = ['id', 'nomor_hp', 'nama_pemesan', 'pesanan', 'metode', 'bukti_transfer']
+        fields = "__all__"
 
     def validate(self, data):
         if data['metode'] == 'transfer' and not data.get('bukti_transfer'):
