@@ -18,15 +18,9 @@ class Menu(models.Model):
     def __str__(self):
         return self.nama
 
-class Pesanan(models.Model):
-    STATUS_CHOICES = [
-        ('proses', 'prosess'),
-        ('selesai', 'selesai'),
-    ]
-
+class Pesanan(models.Model): 
     nomor_meja = models.IntegerField()
     keterangan = models.TextField(null=True, blank=True)
-    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
@@ -53,7 +47,12 @@ class Pembayaran(models.Model):
         ('transfer', 'Transfer'),
         ('cash', 'Cash'),
     ]
+    STATUS_CHOICES = [
+        ('proses', 'prosess'),
+        ('selesai', 'selesai'),
+    ]
     pesanan = models.OneToOneField(Pesanan, related_name='pembayaran', on_delete=models.CASCADE)
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
     nama_pemesan = models.CharField(max_length=100)
     nomor_hp = models.CharField(max_length=16, default='+62')
     metode = models.CharField(choices=PEMBAYARAN_METODE, max_length=50)
