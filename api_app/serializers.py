@@ -43,7 +43,7 @@ class PesananSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Pesanan
-        fields = ['id', 'nomor_meja', 'keterangan', 'status', 'created', 'updated', 'items', 'total_harga']
+        fields = ['id', 'nomor_meja', 'keterangan', 'created', 'updated', 'items', 'total_harga']
 
     def get_total_harga(self, obj):
         return obj.total_harga()

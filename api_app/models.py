@@ -48,11 +48,11 @@ class Pembayaran(models.Model):
         ('cash', 'Cash'),
     ]
     STATUS_CHOICES = [
-        ('proses', 'prosess'),
-        ('selesai', 'selesai'),
+        ('proses', 'Proses'),
+        ('selesai', 'Selesai'),
     ]
     pesanan = models.OneToOneField(Pesanan, related_name='pembayaran', on_delete=models.CASCADE)
-    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='proses')
     nama_pemesan = models.CharField(max_length=100)
     nomor_hp = models.CharField(max_length=16, default='+62')
     metode = models.CharField(choices=PEMBAYARAN_METODE, max_length=50)
